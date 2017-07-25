@@ -4,6 +4,7 @@ import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.github.chrisbanes.photoview.PhotoViewAttacher;
 import com.podcopic.animationlib.library.AnimationType;
@@ -31,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
         CustomPhotoAttacher customPhotoAttacher = new CustomPhotoAttacher(imageView);
         customPhotoAttacher.mySetTextViews((TextView)findViewById(R.id.valueX), (TextView)findViewById(R.id.valueY));
 
+        //****이미지 띄우는 부분****//
+        customPhotoAttacher.setPointLayout((LinearLayout) findViewById(R.id.pointlayout));
+        customPhotoAttacher.setContext(getApplicationContext());
+        /**===========================*/
         StartSmartAnimation.startAnimation(findViewById(R.id.hallView), AnimationType.BounceInUp, 500, 0, true);
     }
 }

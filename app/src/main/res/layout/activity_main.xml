@@ -7,6 +7,8 @@
     tools:context="io.github.yongjang.automagnetometer.MainActivity">
 
     <include layout="@layout/map_layout" android:id="@+id/maplayout" />
+    <include layout="@layout/point_layout" android:id="@+id/pointlayout" />
     <include layout="@layout/value_layout" android:id="@+id/valuelayout"/>
+
 
 </FrameLayout>
