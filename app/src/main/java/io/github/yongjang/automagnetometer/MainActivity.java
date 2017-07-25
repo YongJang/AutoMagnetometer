@@ -5,15 +5,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.github.chrisbanes.photoview.PhotoViewAttacher;
+import com.podcopic.animationlib.library.AnimationType;
+import com.podcopic.animationlib.library.StartSmartAnimation;
+
+/**
+ *   @author YongJang
+ *   https://github.com/YongJang/AutoMagnetometer
+ *   ====== used libraries ======
+ *   https://github.com/chrisbanes/PhotoView
+ *   https://github.com/ratty3697/android-smart-animation-library
+ */
 
 public class MainActivity extends AppCompatActivity {
 
     String DEFAULT_PATH = Environment.getExternalStorageDirectory().getPath();
     String IMAGE_FILE = "hall2.png";
     ImageView imageView;
-    PhotoViewAttacher mAttacher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,5 +30,7 @@ public class MainActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.hallView);
         CustomPhotoAttacher customPhotoAttacher = new CustomPhotoAttacher(imageView);
         customPhotoAttacher.mySetTextViews((TextView)findViewById(R.id.valueX), (TextView)findViewById(R.id.valueY));
+
+        StartSmartAnimation.startAnimation(findViewById(R.id.hallView), AnimationType.BounceInUp, 500, 0, true);
     }
 }
