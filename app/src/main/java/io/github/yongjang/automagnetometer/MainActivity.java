@@ -3,6 +3,7 @@ package io.github.yongjang.automagnetometer;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         customPhotoAttacher.mySetTextViews((TextView)findViewById(R.id.valueX), (TextView)findViewById(R.id.valueY));
 
         //****이미지 띄우는 부분****//
-        customPhotoAttacher.setPointLayout((LinearLayout) findViewById(R.id.pointlayout));
+        customPhotoAttacher.setPointLayout((FrameLayout) findViewById(R.id.pointlayout));
         customPhotoAttacher.setContext(getApplicationContext());
         /**===========================*/
         StartSmartAnimation.startAnimation(findViewById(R.id.hallView), AnimationType.BounceInUp, 500, 0, true);

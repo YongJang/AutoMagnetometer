@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,7 +22,7 @@ import com.github.chrisbanes.photoview.PhotoViewAttacher;
 public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTouchListener, View.OnLongClickListener{
     private TextView textViewX;
     private TextView textViewY;
-    private LinearLayout pointLayout;
+    private FrameLayout pointLayout;
     private Context context;
 
     public CustomPhotoAttacher(ImageView imageView) {
@@ -33,7 +34,7 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
         this.textViewY = y;
     }
 
-    public void setPointLayout(LinearLayout imageView) {
+    public void setPointLayout(FrameLayout imageView) {
         this.pointLayout = imageView;
     }
 
@@ -59,10 +60,17 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
             System.out.println("////" + rf.left + "///" + rf.top + "////");
 
             /** 이미지 띄우는 부분 */
-             LinearLayout linearLayout = pointLayout;
+             FrameLayout frameLayout = pointLayout;
              ImageView image = new ImageView(context);
              image.setBackgroundResource(R.mipmap.ic_launcher);
-             linearLayout.addView(image);
+             image.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
+                                                                FrameLayout.LayoutParams.WRAP_CONTENT));
+             image.getLayoutParams().width = 50;
+             image.getLayoutParams().height = 50;
+             image.setX((int)event.getX());
+             image.setY((int)event.getY());
+
+             frameLayout.addView(image);
             /*==================================*/
         }
 
