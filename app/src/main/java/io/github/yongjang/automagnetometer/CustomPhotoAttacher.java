@@ -78,29 +78,34 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
             System.out.println("////" + rf.left + "///" + rf.top + "////");
 
             /** 이미지 띄우는 부분 */
+            touchPointX = event.getX();
+            touchPointY = event.getY();
 
-            ImageView image = new ImageView(context);
-            image.setBackgroundResource(R.mipmap.bluecircle);
-            image.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
-                    FrameLayout.LayoutParams.WRAP_CONTENT));
-            image.getLayoutParams().width = 50;
-            image.getLayoutParams().height = 50;
-            Point p = new Point(image, x, y);
+
 
             // frameLayout.addView(image);
             // tmpImage = image;
-            pointList.add(p);
 
-            try {
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
 
         if (event.getAction() == MotionEvent.ACTION_UP) {
             rf = getDisplayRect();
             try {
+                float x = (event.getX() - rf.left) / getScale();
+                float y = (event.getY() - rf.top) / getScale();
+                ImageView image = new ImageView(context);
+                image.setBackgroundResource(R.mipmap.bluecircle);
+                image.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
+                        FrameLayout.LayoutParams.WRAP_CONTENT));
+                image.getLayoutParams().width = 50;
+                image.getLayoutParams().height = 50;
+                Point p = new Point(image, x, y);
+
+                int clickWidth = 5;
+                if ((event.getX() <= touchPointX + clickWidth && event.getX() >= touchPointX - clickWidth) && (event.getY() <= touchPointY + clickWidth && event.getY() >= touchPointY - clickWidth))
+                    pointList.add(p);
+
                 for (int i = 0; i < pointList.size(); i++) {
                     pointList.get(i).getImageView().setX((pointList.get(i).getX() * getScale() + rf.left));
                     pointList.get(i).getImageView().setY((pointList.get(i).getY() * getScale() + rf.top));
