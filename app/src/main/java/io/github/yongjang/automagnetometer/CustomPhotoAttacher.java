@@ -8,6 +8,9 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,6 +29,7 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
     private TextView textViewY;
     private FrameLayout pointLayout;
     private FrameLayout mapLayout;
+    private ViewGroup buttonGroup;
     private Context context;
     private ArrayList<Point> pointList = new ArrayList<Point>();
     private ImageView tmpImage;
@@ -48,6 +52,7 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
     public void setContext(Context context) {
         this.context = context;
     }
+    public void setButtonGroup(ViewGroup viewGroup) { this.buttonGroup = viewGroup; }
 
     public boolean onLongClick(View v) {
         System.out.println("CALL --> imageView.setOnTouchListener::onLongClick()");
@@ -103,8 +108,14 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
                 Point p = new Point(image, x, y);
 
                 int clickWidth = 5;
-                if ((event.getX() <= touchPointX + clickWidth && event.getX() >= touchPointX - clickWidth) && (event.getY() <= touchPointY + clickWidth && event.getY() >= touchPointY - clickWidth))
+                if ((event.getX() <= touchPointX + clickWidth && event.getX() >= touchPointX - clickWidth) && (event.getY() <= touchPointY + clickWidth && event.getY() >= touchPointY - clickWidth)){
                     pointList.add(p);
+                    Animation bottomUp = AnimationUtils.loadAnimation(context, R.anim.bottom_up);
+                    ViewGroup hiddenPanner = buttonGroup;
+                    hiddenPanner.startAnimation(bottomUp);
+                    hiddenPanner.setVisibility(View.VISIBLE);
+                }
+
 
                 for (int i = 0; i < pointList.size(); i++) {
                     pointList.get(i).getImageView().setX((pointList.get(i).getX() * getScale() + rf.left));
