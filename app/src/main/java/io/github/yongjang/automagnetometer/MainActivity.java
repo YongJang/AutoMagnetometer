@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         //****이미지 띄우는 부분****//
         customPhotoAttacher.setPointLayout((FrameLayout) findViewById(R.id.pointlayout));
+        customPhotoAttacher.setMapLayout((FrameLayout) findViewById(R.id.maplayout));
         customPhotoAttacher.setContext(getApplicationContext());
         /**===========================*/
         StartSmartAnimation.startAnimation(findViewById(R.id.hallView), AnimationType.BounceInUp, 500, 0, true);

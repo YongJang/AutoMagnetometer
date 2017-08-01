@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.github.chrisbanes.photoview.PhotoViewAttacher;
 
+import java.util.ArrayList;
+
 /**
  * Created by HoJu on 2017-07-24.
  */
@@ -23,11 +25,14 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
     private TextView textViewX;
     private TextView textViewY;
     private FrameLayout pointLayout;
+    private FrameLayout mapLayout;
     private Context context;
+    private ArrayList<Point> pointList = new ArrayList<Point>();
+    private ImageView tmpImage;
+    private static float touchPointX = 0;
+    private static float touchPointY = 0;
 
-    public CustomPhotoAttacher(ImageView imageView) {
-        super(imageView);
-    }
+    public CustomPhotoAttacher(ImageView imageView) { super(imageView); }
 
     public void mySetTextViews(TextView x, TextView y) {
         this.textViewX = x;
@@ -36,6 +41,9 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
 
     public void setPointLayout(FrameLayout imageView) {
         this.pointLayout = imageView;
+    }
+    public void setMapLayout(FrameLayout imageView) {
+        this.mapLayout = imageView;
     }
 
     public void setContext(Context context) {
@@ -47,12 +55,22 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
         return false;
     }
 
+    @Override
+    public void setOnClickListener(View.OnClickListener listener) {
+
+        super.setOnClickListener(listener);
+    }
+
     public boolean onTouch(View view, MotionEvent event) {
+        FrameLayout frameLayout = mapLayout;
         RectF rf;
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             rf = getDisplayRect();
-            float x = ((int) event.getX() - rf.left) / getScale();
-            float y = ((int) event.getY() - rf.top) / getScale();
+            for (int i = 0; i < pointList.size(); i++) {
+                frameLayout.removeView(pointList.get(i).getImageView());
+            }
+            float x = (event.getX() - rf.left) / getScale();
+            float y = (event.getY() - rf.top) / getScale();
             TextView valueX = textViewX;
             TextView valueY = textViewY;
             valueX.setText(Float.toString(x));
@@ -60,23 +78,47 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
             System.out.println("////" + rf.left + "///" + rf.top + "////");
 
             /** 이미지 띄우는 부분 */
-             FrameLayout frameLayout = pointLayout;
-             ImageView image = new ImageView(context);
-             image.setBackgroundResource(R.mipmap.ic_launcher);
-             image.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
-                                                                FrameLayout.LayoutParams.WRAP_CONTENT));
-             image.getLayoutParams().width = 50;
-             image.getLayoutParams().height = 50;
-             image.setX((int)event.getX());
-             image.setY((int)event.getY());
 
-             frameLayout.addView(image);
-            /*==================================*/
+            ImageView image = new ImageView(context);
+            image.setBackgroundResource(R.mipmap.bluecircle);
+            image.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT));
+            image.getLayoutParams().width = 50;
+            image.getLayoutParams().height = 50;
+            Point p = new Point(image, x, y);
+
+            // frameLayout.addView(image);
+            // tmpImage = image;
+            pointList.add(p);
+
+            try {
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            rf = getDisplayRect();
+            try {
+                for (int i = 0; i < pointList.size(); i++) {
+                    pointList.get(i).getImageView().setX((pointList.get(i).getX() * getScale() + rf.left));
+                    pointList.get(i).getImageView().setY((pointList.get(i).getY() * getScale() + rf.top));
+
+                }
+
+                for (int i = 0; i < pointList.size(); i++) {
+                    frameLayout.addView(pointList.get(i).getImageView());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            frameLayout.invalidate();
+        }
         System.out.println("*****************" + getScale() + "*****************");
 
         System.out.println("CALL --> imageView.setOnTouchListener::onTouch()");
+
         return super.onTouch(view, event);
     }
 }
