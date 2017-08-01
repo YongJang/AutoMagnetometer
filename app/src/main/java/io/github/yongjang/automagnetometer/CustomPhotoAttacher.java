@@ -69,6 +69,7 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
             for (int i = 0; i < pointList.size(); i++) {
                 frameLayout.removeView(pointList.get(i).getImageView());
             }
+            // 주석
             float x = (event.getX() - rf.left) / getScale();
             float y = (event.getY() - rf.top) / getScale();
             TextView valueX = textViewX;
