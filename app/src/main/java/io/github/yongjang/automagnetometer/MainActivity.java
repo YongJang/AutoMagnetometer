@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     String DEFAULT_PATH = Environment.getExternalStorageDirectory().getPath();
     String IMAGE_FILE = "hall2.png";
     ImageView imageView;
-    Button startButton;
+    Button startButton, endButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +47,22 @@ public class MainActivity extends AppCompatActivity {
         StartSmartAnimation.startAnimation(findViewById(R.id.hallView), AnimationType.BounceInUp, 500, 0, true);
 
         startButton = (Button) findViewById(R.id.start_button);
+        endButton = (Button) findViewById(R.id.end_button);
 
         startButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                System.out.println("Start Button Touched.");
-                customPhotoAttacher.startMeasuring();
+                customPhotoAttacher.startButtonPushed();
+            }
+        });
+
+        endButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("End Button Touched.");
+                customPhotoAttacher.endButtonPushed();
             }
         });
     }

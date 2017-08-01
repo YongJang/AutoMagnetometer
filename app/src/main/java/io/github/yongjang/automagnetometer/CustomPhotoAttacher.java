@@ -32,10 +32,12 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
     private ViewGroup buttonGroup;
     private Context context;
     private ArrayList<Point> startPointList = new ArrayList<Point>();
+    private ArrayList<Point> endPointList = new ArrayList<Point>();
     private ImageView tmpImage;
     private static float touchPointX = 0;
     private static float touchPointY = 0;
     private Point tempPoint;
+    private int startButtonFlag = 0;
 
     public CustomPhotoAttacher(ImageView imageView) { super(imageView); }
 
@@ -74,6 +76,9 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
             frameLayout.removeView(tmpImage);
             for (int i = 0; i < startPointList.size(); i++) {
                 frameLayout.removeView(startPointList.get(i).getImageView());
+            }
+            for (int i = 0; i < endPointList.size(); i++) {
+                frameLayout.removeView(endPointList.get(i).getImageView());
             }
             // 주석
             float x = (event.getX() - rf.left) / getScale();
@@ -129,9 +134,16 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
                     startPointList.get(i).getImageView().setY((startPointList.get(i).getY() * getScale() + rf.top));
 
                 }
+                for (int i = 0; i < endPointList.size(); i++) {
+                    endPointList.get(i).getImageView().setX((endPointList.get(i).getX() * getScale() + rf.left));
+                    endPointList.get(i).getImageView().setY((endPointList.get(i).getY() * getScale() + rf.top));
+                }
 
                 for (int i = 0; i < startPointList.size(); i++) {
                     frameLayout.addView(startPointList.get(i).getImageView());
+                }
+                for (int i = 0; i < endPointList.size(); i++) {
+                    frameLayout.addView(endPointList.get(i).getImageView());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -145,8 +157,26 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
         return super.onTouch(view, event);
     }
 
-    public void startMeasuring() {
+    public int startButtonPushed() {
+        if (startButtonFlag != 0 || tempPoint == null) {
+            return -1;
+        }
+        startButtonFlag = 1;
         tempPoint.getImageView().setBackgroundResource(R.mipmap.bluecircle);
+        startButtonFlag = 1;
         startPointList.add(tempPoint);
+        tempPoint = null;
+        return startPointList.size();
+    }
+
+    public int endButtonPushed() {
+        if (startButtonFlag != 1 || (startPointList.size() <= endPointList.size()) || tempPoint == null) {
+            return -1;
+        }
+        startButtonFlag = 0;
+        tempPoint.getImageView().setBackgroundResource(R.mipmap.redcircle);
+        endPointList.add(tempPoint);
+        tempPoint = null;
+        return endPointList.size();
     }
 }
