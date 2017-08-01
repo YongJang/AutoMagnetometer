@@ -191,4 +191,26 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
         hiddenPanner2.setVisibility(View.VISIBLE);
         return endPointList.size();
     }
+
+    public int cancelButtonPushed() {
+        FrameLayout frameLayout = mapLayout;
+        if (startPointList.size() <= 0 || endPointList.size() <= 0) {
+            return -1;
+        }
+        int startIndex = startPointList.size() - 1;
+        int endIndex = endPointList.size() - 1;
+        frameLayout.removeView(startPointList.get(startIndex).getImageView());
+        frameLayout.removeView(endPointList.get(endIndex).getImageView());
+        startPointList.remove(startIndex);
+        endPointList.remove(endIndex);
+        startButtonFlag = 0;
+        Animation bottomDown = AnimationUtils.loadAnimation(context, R.anim.bottom_down);
+        Animation bottomUp = AnimationUtils.loadAnimation(context, R.anim.bottom_up);
+        ViewGroup hiddenPanner = measureGroup;
+        ViewGroup hiddenPanner2 = buttonGroup;
+        hiddenPanner.startAnimation(bottomDown);
+        hiddenPanner.setVisibility(View.INVISIBLE);
+        hiddenPanner2.startAnimation(bottomDown);
+        return endIndex;
+    }
 }

@@ -69,5 +69,20 @@ public class MainActivity extends AppCompatActivity {
                 customPhotoAttacher.endButtonPushed();
             }
         });
+
+        measureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Measure Button Touched.");
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Cancel Button Touched.");
+                customPhotoAttacher.cancelButtonPushed();
+            }
+        });
     }
 }
