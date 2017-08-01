@@ -30,6 +30,7 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
     private FrameLayout pointLayout;
     private FrameLayout mapLayout;
     private ViewGroup buttonGroup;
+    private ViewGroup measureGroup;
     private Context context;
     private ArrayList<Point> startPointList = new ArrayList<Point>();
     private ArrayList<Point> endPointList = new ArrayList<Point>();
@@ -56,6 +57,7 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
         this.context = context;
     }
     public void setButtonGroup(ViewGroup viewGroup) { this.buttonGroup = viewGroup; }
+    public void setMeasureGroup(ViewGroup viewGroup) { this.measureGroup = viewGroup; }
 
     public boolean onLongClick(View v) {
         System.out.println("CALL --> imageView.setOnTouchListener::onLongClick()");
@@ -122,10 +124,12 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
                     tempPoint.getImageView().setY((tempPoint.getY() * getScale() + rf.top));
                     frameLayout.addView(tempPoint.getImageView());
 
-                    Animation bottomUp = AnimationUtils.loadAnimation(context, R.anim.bottom_up);
-                    ViewGroup hiddenPanner = buttonGroup;
-                    hiddenPanner.startAnimation(bottomUp);
-                    hiddenPanner.setVisibility(View.VISIBLE);
+                    if (startButtonFlag == 0) {
+                        Animation bottomUp = AnimationUtils.loadAnimation(context, R.anim.bottom_up);
+                        ViewGroup hiddenPanner = buttonGroup;
+                        hiddenPanner.startAnimation(bottomUp);
+                        hiddenPanner.setVisibility(View.VISIBLE);
+                    }
                 }
 
 
@@ -177,6 +181,14 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
         tempPoint.getImageView().setBackgroundResource(R.mipmap.redcircle);
         endPointList.add(tempPoint);
         tempPoint = null;
+        Animation bottomDown = AnimationUtils.loadAnimation(context, R.anim.bottom_down);
+        Animation bottomUp = AnimationUtils.loadAnimation(context, R.anim.bottom_up);
+        ViewGroup hiddenPanner = buttonGroup;
+        ViewGroup hiddenPanner2 = measureGroup;
+        hiddenPanner.startAnimation(bottomDown);
+        hiddenPanner.setVisibility(View.INVISIBLE);
+        hiddenPanner2.startAnimation(bottomUp);
+        hiddenPanner2.setVisibility(View.VISIBLE);
         return endPointList.size();
     }
 }

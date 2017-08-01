@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     String IMAGE_FILE = "hall2.png";
     ImageView imageView;
     Button startButton, endButton;
+    Button measureButton, cancelButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +43,15 @@ public class MainActivity extends AppCompatActivity {
         customPhotoAttacher.setPointLayout((FrameLayout) findViewById(R.id.pointlayout));
         customPhotoAttacher.setMapLayout((FrameLayout) findViewById(R.id.maplayout));
         customPhotoAttacher.setButtonGroup((ViewGroup) findViewById(R.id.hidden_panel));
+        customPhotoAttacher.setMeasureGroup((ViewGroup) findViewById(R.id.hidden_panel2));
         customPhotoAttacher.setContext(getApplicationContext());
         /**===========================*/
         StartSmartAnimation.startAnimation(findViewById(R.id.hallView), AnimationType.BounceInUp, 500, 0, true);
 
         startButton = (Button) findViewById(R.id.start_button);
         endButton = (Button) findViewById(R.id.end_button);
+        measureButton = (Button) findViewById(R.id.measure_button);
+        cancelButton = (Button) findViewById(R.id.cancel_button);
 
         startButton.setOnClickListener(new View.OnClickListener() {
 
