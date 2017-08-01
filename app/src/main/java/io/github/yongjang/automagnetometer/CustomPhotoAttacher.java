@@ -18,7 +18,7 @@ import com.github.chrisbanes.photoview.PhotoViewAttacher;
 import java.util.ArrayList;
 
 /**
- * Created by HoJu on 2017-07-24.
+ * Created by YongJang on 2017-07-24.
  */
 
 public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTouchListener, View.OnLongClickListener{
@@ -45,7 +45,6 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
     public void setMapLayout(FrameLayout imageView) {
         this.mapLayout = imageView;
     }
-
     public void setContext(Context context) {
         this.context = context;
     }

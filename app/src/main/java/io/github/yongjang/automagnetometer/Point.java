@@ -3,7 +3,7 @@ package io.github.yongjang.automagnetometer;
 import android.widget.ImageView;
 
 /**
- * Created by HoJu on 2017-08-01.
+ * Created by YongJang on 2017-08-01.
  */
 
 public class Point {
