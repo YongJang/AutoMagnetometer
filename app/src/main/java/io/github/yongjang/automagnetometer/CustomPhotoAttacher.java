@@ -31,10 +31,11 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
     private FrameLayout mapLayout;
     private ViewGroup buttonGroup;
     private Context context;
-    private ArrayList<Point> pointList = new ArrayList<Point>();
+    private ArrayList<Point> startPointList = new ArrayList<Point>();
     private ImageView tmpImage;
     private static float touchPointX = 0;
     private static float touchPointY = 0;
+    private Point tempPoint;
 
     public CustomPhotoAttacher(ImageView imageView) { super(imageView); }
 
@@ -70,8 +71,9 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
         RectF rf;
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             rf = getDisplayRect();
-            for (int i = 0; i < pointList.size(); i++) {
-                frameLayout.removeView(pointList.get(i).getImageView());
+            frameLayout.removeView(tmpImage);
+            for (int i = 0; i < startPointList.size(); i++) {
+                frameLayout.removeView(startPointList.get(i).getImageView());
             }
             // 주석
             float x = (event.getX() - rf.left) / getScale();
@@ -100,16 +102,21 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
                 float x = (event.getX() - rf.left) / getScale();
                 float y = (event.getY() - rf.top) / getScale();
                 ImageView image = new ImageView(context);
-                image.setBackgroundResource(R.mipmap.bluecircle);
+                image.setBackgroundResource(R.mipmap.whitecircle);
                 image.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
                         FrameLayout.LayoutParams.WRAP_CONTENT));
                 image.getLayoutParams().width = 50;
                 image.getLayoutParams().height = 50;
-                Point p = new Point(image, x, y);
+                tempPoint = new Point(image, x, y);
 
                 int clickWidth = 5;
                 if ((event.getX() <= touchPointX + clickWidth && event.getX() >= touchPointX - clickWidth) && (event.getY() <= touchPointY + clickWidth && event.getY() >= touchPointY - clickWidth)){
-                    pointList.add(p);
+                    // pointList.add(p);
+                    tmpImage = tempPoint.getImageView();
+                    tempPoint.getImageView().setX((tempPoint.getX() * getScale() + rf.left));
+                    tempPoint.getImageView().setY((tempPoint.getY() * getScale() + rf.top));
+                    frameLayout.addView(tempPoint.getImageView());
+
                     Animation bottomUp = AnimationUtils.loadAnimation(context, R.anim.bottom_up);
                     ViewGroup hiddenPanner = buttonGroup;
                     hiddenPanner.startAnimation(bottomUp);
@@ -117,14 +124,14 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
                 }
 
 
-                for (int i = 0; i < pointList.size(); i++) {
-                    pointList.get(i).getImageView().setX((pointList.get(i).getX() * getScale() + rf.left));
-                    pointList.get(i).getImageView().setY((pointList.get(i).getY() * getScale() + rf.top));
+                for (int i = 0; i < startPointList.size(); i++) {
+                    startPointList.get(i).getImageView().setX((startPointList.get(i).getX() * getScale() + rf.left));
+                    startPointList.get(i).getImageView().setY((startPointList.get(i).getY() * getScale() + rf.top));
 
                 }
 
-                for (int i = 0; i < pointList.size(); i++) {
-                    frameLayout.addView(pointList.get(i).getImageView());
+                for (int i = 0; i < startPointList.size(); i++) {
+                    frameLayout.addView(startPointList.get(i).getImageView());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -136,5 +143,10 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
         System.out.println("CALL --> imageView.setOnTouchListener::onTouch()");
 
         return super.onTouch(view, event);
+    }
+
+    public void startMeasuring() {
+        tempPoint.getImageView().setBackgroundResource(R.mipmap.bluecircle);
+        startPointList.add(tempPoint);
     }
 }
