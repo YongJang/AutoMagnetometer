@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
         //****이미지 띄우는 부분****//
         customPhotoAttacher.setPointLayout((FrameLayout) findViewById(R.id.pointlayout));
         customPhotoAttacher.setMapLayout((FrameLayout) findViewById(R.id.maplayout));
-        customPhotoAttacher.setButtonGroup((ViewGroup) findViewById(R.id.hidden_panel));
-        customPhotoAttacher.setMeasureGroup((ViewGroup) findViewById(R.id.hidden_panel2));
+        customPhotoAttacher.setButtonGroup((ViewGroup) findViewById(R.id.hidden_panelSE));
+        customPhotoAttacher.setMeasureGroup((ViewGroup) findViewById(R.id.hidden_panelMC));
         customPhotoAttacher.setContext(getApplicationContext());
         /**===========================*/
         StartSmartAnimation.startAnimation(findViewById(R.id.hallView), AnimationType.BounceInUp, 500, 0, true);

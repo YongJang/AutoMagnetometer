@@ -183,12 +183,12 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
         tempPoint = null;
         Animation bottomDown = AnimationUtils.loadAnimation(context, R.anim.bottom_down);
         Animation bottomUp = AnimationUtils.loadAnimation(context, R.anim.bottom_up);
-        ViewGroup hiddenPanner = buttonGroup;
-        ViewGroup hiddenPanner2 = measureGroup;
-        hiddenPanner.startAnimation(bottomDown);
-        hiddenPanner.setVisibility(View.INVISIBLE);
-        hiddenPanner2.startAnimation(bottomUp);
-        hiddenPanner2.setVisibility(View.VISIBLE);
+        ViewGroup hiddenPannelSE = buttonGroup;
+        ViewGroup hiddenPannelMC = measureGroup;
+        hiddenPannelSE.startAnimation(bottomDown);
+        hiddenPannelSE.setVisibility(View.INVISIBLE);
+        hiddenPannelMC.startAnimation(bottomUp);
+        hiddenPannelMC.setVisibility(View.VISIBLE);
         return endPointList.size();
     }
 
@@ -206,11 +206,11 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
         startButtonFlag = 0;
         Animation bottomDown = AnimationUtils.loadAnimation(context, R.anim.bottom_down);
         Animation bottomUp = AnimationUtils.loadAnimation(context, R.anim.bottom_up);
-        ViewGroup hiddenPanner = measureGroup;
-        ViewGroup hiddenPanner2 = buttonGroup;
-        hiddenPanner.startAnimation(bottomDown);
-        hiddenPanner.setVisibility(View.INVISIBLE);
-        hiddenPanner2.startAnimation(bottomDown);
+        ViewGroup hiddenPannelMC = measureGroup;
+        ViewGroup hiddenPannelSE = buttonGroup;
+        hiddenPannelMC.startAnimation(bottomDown);
+        hiddenPannelMC.setVisibility(View.INVISIBLE);
+        hiddenPannelSE.startAnimation(bottomDown);
         return endIndex;
     }
 }
