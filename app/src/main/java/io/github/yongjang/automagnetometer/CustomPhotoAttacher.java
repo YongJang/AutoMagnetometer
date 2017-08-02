@@ -169,8 +169,7 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
         if (startButtonFlag != 0 || tempPoint == null) {
             return -1;
         }
-        System.out.println("startPointData X : " + tempPoint.getX());
-        System.out.println("startPointData Y : " + tempPoint.getY());
+
         startButtonFlag = 1;
         tempPoint.getImageView().setBackgroundResource(R.mipmap.bluecircle);
         startButtonFlag = 1;
@@ -223,8 +222,6 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
         hiddenPannelMC.setVisibility(View.INVISIBLE);
         hiddenPannelF.startAnimation(bottomUp);
         hiddenPannelF.setVisibility(View.VISIBLE);
-
-
 
         return  magDataSet;
     }

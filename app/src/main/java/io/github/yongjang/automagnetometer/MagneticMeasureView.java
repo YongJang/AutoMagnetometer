@@ -31,9 +31,7 @@ public class MagneticMeasureView extends AppCompatActivity {
     ArrayList<MagData> magDataSet;
     Measurement measurementManager;
 
-    public MagneticMeasureView() {
-        System.out.println("Constructor!!!12312");
-    }
+    public MagneticMeasureView() { }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,7 +81,8 @@ public class MagneticMeasureView extends AppCompatActivity {
                 System.out.println("Measure Button Touched.");
                 magDataSet = customPhotoAttacher.measureButtonPushed();
                 measurementManager = new Measurement(getApplicationContext());
-                measurementManager.initialStartEndPointData(magDataSet.get(0), magDataSet.get(1));
+                int tempIndex = magDataSet.size();
+                measurementManager.initialStartEndPointData(magDataSet.get(tempIndex - 2), magDataSet.get(tempIndex - 1));
                 measurementManager.setMagneticActivateFlag(true);
                 measurementManager.setMagTextView((TextView) findViewById(R.id.magValueX), (TextView) findViewById(R.id.magValueY),
                         (TextView) findViewById(R.id.magValueZ), (TextView) findViewById(R.id.magValueAbs));
