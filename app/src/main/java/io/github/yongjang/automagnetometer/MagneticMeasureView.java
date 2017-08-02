@@ -15,6 +15,7 @@ import com.podcopic.animationlib.library.AnimationType;
 import com.podcopic.animationlib.library.StartSmartAnimation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by YongJang on 2017-08-02.
@@ -102,10 +103,23 @@ public class MagneticMeasureView extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 System.out.println("Cancel Button Touched.");
+                List<MagData> magDataList = null;
                 if (measurementManager != null) {
                     measurementManager.setMagneticActivateFlag(false);
+                    measurementManager.measureFinish();
+                    magDataList = measurementManager.getDataList();
                 }
                 customPhotoAttacher.finishButtonPushed();
+                System.out.println("=====================================");
+                if (magDataList != null) {
+                    for (int i = 0; i < magDataList.size(); i++) {
+                        System.out.println("Pos X : " + magDataList.get(i).getPosX() + " / Pos Y : " + magDataList.get(i).getPosY() +" :: "
+                                + magDataList.get(i).getX() + ", "
+                                + magDataList.get(i).getY() + ", "
+                                + magDataList.get(i).getZ());
+                    }
+                }
+                System.out.println("=====================================");
             }
         });
     }

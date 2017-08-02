@@ -205,8 +205,8 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
         Point startPointLastElement = startPointList.get(startIndex);
         Point endPointLastElement = endPointList.get(endIndex);
 
-        MagData startPoint = new MagData(startPointLastElement.getX(), startPointLastElement.getY(), 0, 0, 0);
-        MagData endPoint = new MagData(endPointLastElement.getX(), endPointLastElement.getY(), 0, 0, 0);
+        MagData startPoint = new MagData(startPointLastElement.getX(), startPointLastElement.getY(), 0, 0, 0, 0);
+        MagData endPoint = new MagData(endPointLastElement.getX(), endPointLastElement.getY(), 0, 0, 0, 0);
 
         magDataSet.add(startPoint);
         magDataSet.add(endPoint);
