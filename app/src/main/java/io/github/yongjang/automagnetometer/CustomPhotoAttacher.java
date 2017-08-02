@@ -87,12 +87,7 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
                 frameLayout.removeView(endPointList.get(i).getImageView());
             }
             // 주석
-            float x = (event.getX() - rf.left) / getScale();
-            float y = (event.getY() - rf.top) / getScale();
-            TextView valueX = textViewX;
-            TextView valueY = textViewY;
-            valueX.setText(Float.toString(x));
-            valueY.setText(Float.toString(y));
+
             System.out.println("////" + rf.left + "///" + rf.top + "////");
 
             /** 이미지 띄우는 부분 */
@@ -112,6 +107,11 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
             try {
                 float x = (event.getX() - rf.left) / getScale();
                 float y = (event.getY() - rf.top) / getScale();
+                TextView valueX = textViewX;
+                TextView valueY = textViewY;
+                valueX.setText(Float.toString(x));
+                valueY.setText(Float.toString(y));
+
                 ImageView image = new ImageView(context);
                 image.setBackgroundResource(R.mipmap.whitecircle);
                 image.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
@@ -130,9 +130,9 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
 
                     if (startButtonFlag == 0) {
                         Animation bottomUp = AnimationUtils.loadAnimation(context, R.anim.bottom_up);
-                        ViewGroup hiddenPanner = buttonGroup;
-                        hiddenPanner.startAnimation(bottomUp);
-                        hiddenPanner.setVisibility(View.VISIBLE);
+                        ViewGroup hiddenPannel = buttonGroup;
+                        hiddenPannel.startAnimation(bottomUp);
+                        hiddenPannel.setVisibility(View.VISIBLE);
                     }
                 }
 
@@ -169,6 +169,8 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
         if (startButtonFlag != 0 || tempPoint == null) {
             return -1;
         }
+        System.out.println("startPointData X : " + tempPoint.getX());
+        System.out.println("startPointData Y : " + tempPoint.getY());
         startButtonFlag = 1;
         tempPoint.getImageView().setBackgroundResource(R.mipmap.bluecircle);
         startButtonFlag = 1;
@@ -221,6 +223,8 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
         hiddenPannelMC.setVisibility(View.INVISIBLE);
         hiddenPannelF.startAnimation(bottomUp);
         hiddenPannelF.setVisibility(View.VISIBLE);
+
+
 
         return  magDataSet;
     }

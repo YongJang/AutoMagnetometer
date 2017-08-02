@@ -25,11 +25,11 @@ public class MagData {
         this.abs = abs;
     }
 
-    public Float getPosX() {
+    public float getPosX() {
         return posX;
     }
 
-    public Float getPosY() {
+    public float getPosY() {
         return posY;
     }
 

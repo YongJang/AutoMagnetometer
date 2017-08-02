@@ -116,7 +116,8 @@ public class MagneticMeasureView extends AppCompatActivity {
                         System.out.println("Pos X : " + magDataList.get(i).getPosX() + " / Pos Y : " + magDataList.get(i).getPosY() +" :: "
                                 + magDataList.get(i).getX() + ", "
                                 + magDataList.get(i).getY() + ", "
-                                + magDataList.get(i).getZ());
+                                + magDataList.get(i).getZ() + ", "
+                                + magDataList.get(i).getAbs());
                     }
                 }
                 System.out.println("=====================================");
