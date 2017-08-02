@@ -134,6 +134,8 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
                         hiddenPannel.startAnimation(bottomUp);
                         hiddenPannel.setVisibility(View.VISIBLE);
                     }
+                } else {
+                    tempPoint = null;
                 }
 
 
