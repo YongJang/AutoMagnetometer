@@ -245,4 +245,14 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
         hiddenPannelSE.startAnimation(bottomDown);
         return endIndex;
     }
+
+    public void finishButtonPushed() {
+        startButtonFlag = 0;
+        Animation bottomDown = AnimationUtils.loadAnimation(context, R.anim.bottom_down);
+        ViewGroup hiddenPannelF = finishGroup;
+        ViewGroup hiddenPannelSE = buttonGroup;
+        hiddenPannelF.startAnimation(bottomDown);
+        hiddenPannelF.setVisibility(View.INVISIBLE);
+        hiddenPannelSE.startAnimation(bottomDown);
+    }
 }

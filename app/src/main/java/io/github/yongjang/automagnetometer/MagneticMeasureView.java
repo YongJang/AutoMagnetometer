@@ -91,5 +91,13 @@ public class MagneticMeasureView extends AppCompatActivity {
                 customPhotoAttacher.cancelButtonPushed();
             }
         });
+
+        measureFinishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Cancel Button Touched.");
+                customPhotoAttacher.finishButtonPushed();
+            }
+        });
     }
 }
