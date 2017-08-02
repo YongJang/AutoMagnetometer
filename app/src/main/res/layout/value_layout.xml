@@ -3,36 +3,74 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-
-    <TextView
-        android:id="@+id/textValueX"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
         android:layout_column="0"
         android:layout_row="0"
-        android:layout_weight="1"
-        android:text="X : " />
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/textValueX"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Position X : " />
 
-    <TextView
-        android:id="@+id/valueX"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_column="1"
-        android:layout_row="0"
-        android:layout_weight="1" />
+        <TextView
+            android:id="@+id/valueX"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/textValueY"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
         android:layout_column="0"
         android:layout_row="1"
-        android:text="Y : " />
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/valueY"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/textValueY"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Position Y : " />
+    </LinearLayout>
+
+
 
     <TextView
-        android:id="@+id/valueY"
+        android:id="@+id/magValueX"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_column="1"
-        android:layout_row="1" />
+        android:layout_column="0"
+        android:layout_row="2"
+        android:layout_weight="1"
+        android:text="Magnetic X : " />
+
+    <TextView
+        android:id="@+id/magValueY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_row="3"
+        android:layout_weight="1"
+        android:text="Magnetic Y : " />
+
+    <TextView
+        android:id="@+id/magValueZ"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_row="4"
+        android:layout_weight="1"
+        android:text="Magnetic Z : " />
+
+    <TextView
+        android:id="@+id/magValueAbs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_row="5"
+        android:layout_weight="1"
+        android:text="Magnetic abs : " />
 </GridLayout>
