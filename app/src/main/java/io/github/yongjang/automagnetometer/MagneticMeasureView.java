@@ -28,6 +28,7 @@ public class MagneticMeasureView extends AppCompatActivity {
     Button startButton, endButton;
     Button measureButton, cancelButton;
     Button measureFinishButton;
+    ArrayList<List<MagData>> fullDataList = new ArrayList<List<MagData>>();
     ArrayList<MagData> magDataSet;
     Measurement measurementManager;
 
@@ -59,7 +60,6 @@ public class MagneticMeasureView extends AppCompatActivity {
         measureFinishButton = (Button) findViewById(R.id.measure_finish_button);
 
         startButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 System.out.println("Start Button Touched.");
@@ -120,6 +120,12 @@ public class MagneticMeasureView extends AppCompatActivity {
                     }
                 }
                 System.out.println("=====================================");
+                fullDataList.add(magDataList); // not used yet.
+
+                // write data on file
+                FileManager fm = new FileManager();
+                fm.initialResultFile("testData.csv");
+                fm.writeDataList(magDataList);
             }
         });
     }
