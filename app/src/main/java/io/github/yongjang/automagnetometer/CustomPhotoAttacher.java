@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.github.chrisbanes.photoview.PhotoViewAttacher;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -31,9 +32,11 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
     private FrameLayout mapLayout;
     private ViewGroup buttonGroup;
     private ViewGroup measureGroup;
+    private ViewGroup finishGroup;
     private Context context;
     private ArrayList<Point> startPointList = new ArrayList<Point>();
     private ArrayList<Point> endPointList = new ArrayList<Point>();
+    private ArrayList<MagData> magDataSet = new ArrayList<MagData>();
     private ImageView tmpImage;
     private static float touchPointX = 0;
     private static float touchPointY = 0;
@@ -58,6 +61,7 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
     }
     public void setButtonGroup(ViewGroup viewGroup) { this.buttonGroup = viewGroup; }
     public void setMeasureGroup(ViewGroup viewGroup) { this.measureGroup = viewGroup; }
+    public void setFinishGroup(ViewGroup viewGroup) { this.finishGroup = viewGroup; }
 
     public boolean onLongClick(View v) {
         System.out.println("CALL --> imageView.setOnTouchListener::onLongClick()");
@@ -192,6 +196,35 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
         return endPointList.size();
     }
 
+    public ArrayList<MagData> measureButtonPushed() {
+        if (startPointList.size() <= 0 || endPointList.size() <= 0) {
+            return null;
+        }
+        int startIndex = startPointList.size() - 1;
+        int endIndex = endPointList.size() - 1;
+        Point startPointLastElement = startPointList.get(startIndex);
+        Point endPointLastElement = endPointList.get(endIndex);
+
+        MagData startPoint = new MagData(startPointLastElement.getX(), startPointLastElement.getY(), 0, 0, 0);
+        MagData endPoint = new MagData(endPointLastElement.getX(), endPointLastElement.getY(), 0, 0, 0);
+
+        magDataSet.add(startPoint);
+        magDataSet.add(endPoint);
+
+        Animation bottomDown = AnimationUtils.loadAnimation(context, R.anim.bottom_down);
+        Animation bottomUp = AnimationUtils.loadAnimation(context, R.anim.bottom_up);
+
+        ViewGroup hiddenPannelF = finishGroup;
+        ViewGroup hiddenPannelMC = measureGroup;
+
+        hiddenPannelMC.startAnimation(bottomDown);
+        hiddenPannelMC.setVisibility(View.INVISIBLE);
+        hiddenPannelF.startAnimation(bottomUp);
+        hiddenPannelF.setVisibility(View.VISIBLE);
+
+        return  magDataSet;
+    }
+
     public int cancelButtonPushed() {
         FrameLayout frameLayout = mapLayout;
         if (startPointList.size() <= 0 || endPointList.size() <= 0) {
@@ -205,7 +238,6 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
         endPointList.remove(endIndex);
         startButtonFlag = 0;
         Animation bottomDown = AnimationUtils.loadAnimation(context, R.anim.bottom_down);
-        Animation bottomUp = AnimationUtils.loadAnimation(context, R.anim.bottom_up);
         ViewGroup hiddenPannelMC = measureGroup;
         ViewGroup hiddenPannelSE = buttonGroup;
         hiddenPannelMC.startAnimation(bottomDown);

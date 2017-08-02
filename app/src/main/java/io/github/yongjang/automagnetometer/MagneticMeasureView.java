@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.podcopic.animationlib.library.AnimationType;
 import com.podcopic.animationlib.library.StartSmartAnimation;
 
+import java.util.ArrayList;
+
 /**
  * Created by YongJang on 2017-08-02.
  */
@@ -24,6 +26,8 @@ public class MagneticMeasureView extends AppCompatActivity {
     ImageView imageView;
     Button startButton, endButton;
     Button measureButton, cancelButton;
+    Button measureFinishButton;
+    ArrayList<MagData> magDataSet;
 
     public MagneticMeasureView() {
         System.out.println("Constructor!!!12312");
@@ -43,6 +47,7 @@ public class MagneticMeasureView extends AppCompatActivity {
         customPhotoAttacher.setMapLayout((FrameLayout) findViewById(R.id.maplayout));
         customPhotoAttacher.setButtonGroup((ViewGroup) findViewById(R.id.hidden_panelSE));
         customPhotoAttacher.setMeasureGroup((ViewGroup) findViewById(R.id.hidden_panelMC));
+        customPhotoAttacher.setFinishGroup((ViewGroup) findViewById(R.id.hidden_panelF));
         customPhotoAttacher.setContext(getApplicationContext());
         /**===========================*/
         // StartSmartAnimation.startAnimation(findViewById(R.id.hallView), AnimationType.BounceInUp, 500, 0, true);
@@ -51,6 +56,7 @@ public class MagneticMeasureView extends AppCompatActivity {
         endButton = (Button) findViewById(R.id.end_button);
         measureButton = (Button) findViewById(R.id.measure_button);
         cancelButton = (Button) findViewById(R.id.cancel_button);
+        measureFinishButton = (Button) findViewById(R.id.measure_finish_button);
 
         startButton.setOnClickListener(new View.OnClickListener() {
 
@@ -73,6 +79,8 @@ public class MagneticMeasureView extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 System.out.println("Measure Button Touched.");
+                magDataSet = customPhotoAttacher.measureButtonPushed();
+
             }
         });
 
