@@ -31,6 +31,7 @@ public class MagneticMeasureView extends AppCompatActivity {
     ArrayList<List<MagData>> fullDataList = new ArrayList<List<MagData>>();
     ArrayList<MagData> magDataSet;
     Measurement measurementManager;
+    int fileIndex = 0;
 
     public MagneticMeasureView() { }
 
@@ -82,6 +83,7 @@ public class MagneticMeasureView extends AppCompatActivity {
                 magDataSet = customPhotoAttacher.measureButtonPushed();
                 measurementManager = new Measurement(getApplicationContext());
                 int tempIndex = magDataSet.size();
+                fileIndex = tempIndex / 2;
                 measurementManager.initialStartEndPointData(magDataSet.get(tempIndex - 2), magDataSet.get(tempIndex - 1));
                 measurementManager.setMagneticActivateFlag(true);
                 measurementManager.setMagTextView((TextView) findViewById(R.id.magValueX), (TextView) findViewById(R.id.magValueY),
@@ -124,7 +126,7 @@ public class MagneticMeasureView extends AppCompatActivity {
 
                 // write data on file
                 FileManager fm = new FileManager();
-                fm.initialResultFile("testData.csv");
+                fm.initialResultFile("testData-" + fileIndex + ".csv0");
                 fm.writeDataList(magDataList);
             }
         });

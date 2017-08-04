@@ -53,6 +53,12 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="End" />
+        <Button
+            android:id="@+id/offset_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Offset" />
     </LinearLayout>
     <LinearLayout
         android:visibility="invisible"
