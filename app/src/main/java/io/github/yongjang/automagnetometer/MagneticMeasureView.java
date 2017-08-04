@@ -1,12 +1,16 @@
 package io.github.yongjang.automagnetometer;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,6 +36,7 @@ public class MagneticMeasureView extends AppCompatActivity {
     ArrayList<MagData> magDataSet;
     Measurement measurementManager;
     int fileIndex = 0;
+    int inputNumberX = -1;
 
     public MagneticMeasureView() { }
 
@@ -64,7 +69,7 @@ public class MagneticMeasureView extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 System.out.println("Start Button Touched.");
-                customPhotoAttacher.startButtonPushed();
+                customPhotoAttacher.startButtonPushed(v);
             }
         });
 

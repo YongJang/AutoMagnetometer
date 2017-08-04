@@ -1,16 +1,20 @@
 package io.github.yongjang.automagnetometer;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.text.InputType;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -42,6 +46,7 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
     private static float touchPointY = 0;
     private Point tempPoint;
     private int startButtonFlag = 0;
+    private int inputNumberX;
 
     public CustomPhotoAttacher(ImageView imageView) { super(imageView); }
 
@@ -167,11 +172,39 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
         return super.onTouch(view, event);
     }
 
-    public int startButtonPushed() {
+    public int startButtonPushed(View v) {
         if (startButtonFlag != 0 || tempPoint == null) {
             return -1;
         }
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+        builder.setTitle("Set Position");
+
+        final EditText input = new EditText(v.getContext());
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        builder.setView(input);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                inputNumberX =  Integer.parseInt(input.getText().toString());
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
+
+
+
+
+
+        inputNumberX = -1;
+        System.out.println(inputNumberX);
         startButtonFlag = 1;
         tempPoint.getImageView().setBackgroundResource(R.mipmap.bluecircle);
         startButtonFlag = 1;
