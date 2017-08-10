@@ -131,7 +131,7 @@ public class MagneticMeasureView extends AppCompatActivity {
 
                 // write data on file
                 FileManager fm = new FileManager();
-                fm.initialResultFile("testData-" + fileIndex + ".csv0");
+                fm.initialResultFile("testData-" + fileIndex + ".csv");
                 fm.writeDataList(magDataList);
             }
         });

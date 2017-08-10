@@ -46,7 +46,12 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
     private static float touchPointY = 0;
     private Point tempPoint;
     private int startButtonFlag = 0;
-    private int inputNumberX;
+    private float inputNumberX;
+    private float inputNumberY;
+    private RectF tempRF;
+    private float tempScale;
+    private boolean dialogCancelFlag;
+
 
     public CustomPhotoAttacher(ImageView imageView) { super(imageView); }
 
@@ -84,6 +89,8 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
         RectF rf;
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             rf = getDisplayRect();
+            tempRF = rf;
+            tempScale = getScale();
             frameLayout.removeView(tmpImage);
             for (int i = 0; i < startPointList.size(); i++) {
                 frameLayout.removeView(startPointList.get(i).getImageView());
@@ -109,6 +116,8 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
 
         if (event.getAction() == MotionEvent.ACTION_UP) {
             rf = getDisplayRect();
+            tempRF = rf;
+            tempScale = getScale();
             try {
                 float x = (event.getX() - rf.left) / getScale();
                 float y = (event.getY() - rf.top) / getScale();
@@ -121,8 +130,10 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
                 image.setBackgroundResource(R.mipmap.whitecircle);
                 image.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
                         FrameLayout.LayoutParams.WRAP_CONTENT));
+                // point image size
                 image.getLayoutParams().width = 50;
                 image.getLayoutParams().height = 50;
+
                 tempPoint = new Point(image, x, y);
 
                 int clickWidth = 5;
@@ -168,49 +179,67 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
         System.out.println("*****************" + getScale() + "*****************");
 
         System.out.println("CALL --> imageView.setOnTouchListener::onTouch()");
-
+        // mapLayout.invalidate();
         return super.onTouch(view, event);
     }
 
-    public int startButtonPushed(View v) {
+    public int startButtonPushed(final View v) {
         if (startButtonFlag != 0 || tempPoint == null) {
             return -1;
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+        dialogCancelFlag = false;
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
         builder.setTitle("Set Position");
 
-        final EditText input = new EditText(v.getContext());
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        builder.setView(input);
+        LinearLayout dialogLayout = new LinearLayout(v.getContext());
+        dialogLayout.setOrientation(LinearLayout.VERTICAL);
+
+        final EditText inputX = new EditText(v.getContext());
+        inputX.setHint("input x position value");
+        inputX.setInputType(InputType.TYPE_CLASS_TEXT);
+        inputX.setText(String.valueOf(tempPoint.getX()));
+        final EditText inputY = new EditText(v.getContext());
+        inputY.setHint("input y position value");
+        inputY.setInputType(InputType.TYPE_CLASS_TEXT);
+        inputY.setText(String.valueOf(tempPoint.getY()));
+        System.out.println("***********/"+ tempPoint.getX() + "/***********");
+        System.out.println("***********/"+ tempPoint.getY() + "/***********");
+
+        dialogLayout.addView(inputX);
+        dialogLayout.addView(inputY);
+        builder.setView(dialogLayout);
 
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                inputNumberX =  Integer.parseInt(input.getText().toString());
+                inputNumberX = Float.parseFloat(inputX.getText().toString());
+                inputNumberY = Float.parseFloat(inputY.getText().toString());
+                tempPoint.setPoint(inputNumberX, inputNumberY);
+                tempPoint.getImageView().setX(getAbsolutePositionX(inputNumberX, tempRF, tempScale));
+                tempPoint.getImageView().setY(getAbsolutePositionY(inputNumberY, tempRF, tempScale));
+                tempPoint.getImageView().setBackgroundResource(R.mipmap.bluecircle);
+                startPointList.add(tempPoint);
+                tempPoint = null;
+                startButtonFlag = 1;
+                v.invalidate();
             }
         });
 
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                dialogCancelFlag = true;
+                startButtonFlag = 0;
+                tempPoint = null;
                 dialog.cancel();
             }
         });
         builder.show();
 
-
-
-
-
-        inputNumberX = -1;
-        System.out.println(inputNumberX);
-        startButtonFlag = 1;
-        tempPoint.getImageView().setBackgroundResource(R.mipmap.bluecircle);
-        startButtonFlag = 1;
-        startPointList.add(tempPoint);
-        tempPoint = null;
-        return startPointList.size();
+        if (dialogCancelFlag) {  return -1;  }
+        else return startPointList.size();
     }
 
     public int endButtonPushed() {
@@ -290,5 +319,13 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
         hiddenPannelF.startAnimation(bottomDown);
         hiddenPannelF.setVisibility(View.INVISIBLE);
         hiddenPannelSE.startAnimation(bottomDown);
+    }
+
+    public float getAbsolutePositionX(float x, RectF rf, float scale) {
+        return x * scale + rf.left;
+    }
+
+    public float getAbsolutePositionY(float y, RectF rf, float scale) {
+        return y * scale + rf.top;
     }
 }
