@@ -204,8 +204,6 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
         inputY.setHint("input y position value");
         inputY.setInputType(InputType.TYPE_CLASS_TEXT);
         inputY.setText(String.valueOf(tempPoint.getY()));
-        System.out.println("***********/"+ tempPoint.getX() + "/***********");
-        System.out.println("***********/"+ tempPoint.getY() + "/***********");
 
         dialogLayout.addView(inputX);
         dialogLayout.addView(inputY);
@@ -242,23 +240,69 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
         else return startPointList.size();
     }
 
-    public int endButtonPushed() {
+    public int endButtonPushed(final View v) {
         if (startButtonFlag != 1 || (startPointList.size() <= endPointList.size()) || tempPoint == null) {
             return -1;
         }
-        startButtonFlag = 0;
-        tempPoint.getImageView().setBackgroundResource(R.mipmap.redcircle);
-        endPointList.add(tempPoint);
-        tempPoint = null;
-        Animation bottomDown = AnimationUtils.loadAnimation(context, R.anim.bottom_down);
-        Animation bottomUp = AnimationUtils.loadAnimation(context, R.anim.bottom_up);
-        ViewGroup hiddenPannelSE = buttonGroup;
-        ViewGroup hiddenPannelMC = measureGroup;
-        hiddenPannelSE.startAnimation(bottomDown);
-        hiddenPannelSE.setVisibility(View.INVISIBLE);
-        hiddenPannelMC.startAnimation(bottomUp);
-        hiddenPannelMC.setVisibility(View.VISIBLE);
-        return endPointList.size();
+
+        dialogCancelFlag = false;
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+        builder.setTitle("Set Position");
+
+        LinearLayout dialogLayout = new LinearLayout(v.getContext());
+        dialogLayout.setOrientation(LinearLayout.VERTICAL);
+
+        final EditText inputX = new EditText(v.getContext());
+        inputX.setHint("input x position value");
+        inputX.setInputType(InputType.TYPE_CLASS_TEXT);
+        inputX.setText(String.valueOf(tempPoint.getX()));
+        final EditText inputY = new EditText(v.getContext());
+        inputY.setHint("input y position value");
+        inputY.setInputType(InputType.TYPE_CLASS_TEXT);
+        inputY.setText(String.valueOf(tempPoint.getY()));
+
+        dialogLayout.addView(inputX);
+        dialogLayout.addView(inputY);
+        builder.setView(dialogLayout);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                inputNumberX = Float.parseFloat(inputX.getText().toString());
+                inputNumberY = Float.parseFloat(inputY.getText().toString());
+                tempPoint.setPoint(inputNumberX, inputNumberY);
+                tempPoint.getImageView().setX(getAbsolutePositionX(inputNumberX, tempRF, tempScale));
+                tempPoint.getImageView().setY(getAbsolutePositionY(inputNumberY, tempRF, tempScale));
+                tempPoint.getImageView().setBackgroundResource(R.mipmap.redcircle);
+                endPointList.add(tempPoint);
+                tempPoint = null;
+                startButtonFlag = 0;
+                Animation bottomDown = AnimationUtils.loadAnimation(context, R.anim.bottom_down);
+                Animation bottomUp = AnimationUtils.loadAnimation(context, R.anim.bottom_up);
+                ViewGroup hiddenPannelSE = buttonGroup;
+                ViewGroup hiddenPannelMC = measureGroup;
+                hiddenPannelSE.startAnimation(bottomDown);
+                hiddenPannelSE.setVisibility(View.INVISIBLE);
+                hiddenPannelMC.startAnimation(bottomUp);
+                hiddenPannelMC.setVisibility(View.VISIBLE);
+                v.invalidate();
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialogCancelFlag = true;
+                startButtonFlag = 1;
+                tempPoint = null;
+                dialog.cancel();
+            }
+        });
+        builder.show();
+
+        if (dialogCancelFlag) {  return -1;  }
+        else return endPointList.size();
     }
 
     public ArrayList<MagData> measureButtonPushed() {

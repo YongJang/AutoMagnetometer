@@ -77,7 +77,7 @@ public class MagneticMeasureView extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 System.out.println("End Button Touched.");
-                customPhotoAttacher.endButtonPushed();
+                customPhotoAttacher.endButtonPushed(v);
             }
         });
 
