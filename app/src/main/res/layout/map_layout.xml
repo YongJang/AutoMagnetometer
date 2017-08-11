@@ -12,7 +12,7 @@
         android:id="@+id/hallView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srcCompat="@mipmap/hana"
+        app:srcCompat="@mipmap/hall2"
         android:scaleType="matrix"
         android:onClick="clickMap"
         />
