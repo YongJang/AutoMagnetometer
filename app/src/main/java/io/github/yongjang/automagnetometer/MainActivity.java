@@ -24,4 +24,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), MagneticMeasureView.class);
         startActivity(intent);
     }
+
+    public void goToMagneticMeasureWithPDRView(View view) {
+        Intent intent = new Intent(getApplicationContext(), MagneticMeasureWithPDRView.class);
+        startActivity(intent);
+    }
 }

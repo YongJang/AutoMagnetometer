@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="io.github.yongjang.automagnetometer.MainActivity">
 
     <Button
@@ -12,5 +13,14 @@
         android:layout_height="wrap_content"
         android:onClick="goToMagneticMeasureView"
         android:text="Start Magnetic Measurement"/>
+
+    <Button
+        android:id="@+id/pdr_magnetic_measure_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start PDR Magnetic Measurement"
+        android:onClick="goToMagneticMeasureViewWithPDR"/>
+
+
 
 </LinearLayout>
