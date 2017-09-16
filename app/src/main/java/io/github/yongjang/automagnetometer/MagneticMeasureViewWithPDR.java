@@ -113,6 +113,7 @@ public class MagneticMeasureViewWithPDR extends AppCompatActivity implements Sen
     long SEC1 = 0;
     private SensorManager sensorManager;
     float[] mMatrix = new float[3];
+    float[] magneticField = new float[3];
     float[] agMatrix = new float[3];
     float[] qMatrix=new float[5];
 
@@ -150,12 +151,32 @@ public class MagneticMeasureViewWithPDR extends AppCompatActivity implements Sen
     String data=null;
     TextView output;
     /***********************TEST INITIAL CODE END***********************/
+    /** File I / O Setting declare **/
+    String PATH = Environment.getExternalStorageDirectory().getPath();
+    File magnetometerResultFile;
+    FileOutputStream os;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // setContentView(R.layout.pdr_magnetic_measure_layout);
+
+        /** File I / O Setting initial **/
+        magnetometerResultFile = new File(PATH, "PDR test data.csv");
+        try {
+            os = new FileOutputStream(magnetometerResultFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        try {
+            os.write("#X,#Y,#Z,#abs,#PosX,#PosY\r\n".getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
 
     /**********************************************/
     /************TEST onCreate() CODE START********/
@@ -201,9 +222,10 @@ public class MagneticMeasureViewWithPDR extends AppCompatActivity implements Sen
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 sID=String.valueOf(InputeditID.getText());
                 Log.d("sID",""+sID);
-                wvLayout0401v3.loadUrl("http://it.korea.ac.kr/HYUNDAI/CORE_DATA/map_HDRND_F"+sID+".html");
+                wvLayout0401v3.loadUrl("http://it.korea.ac.kr/Automagnetometer/automagnetometer.html");
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -318,6 +340,9 @@ public class MagneticMeasureViewWithPDR extends AppCompatActivity implements Sen
             float[] orientation = new float[3];
             float[] R = new float[16]; //
             float[] I = new float[16];
+            magneticField[0] = mMatrix[0];
+            magneticField[1] = mMatrix[1];
+            magneticField[2] = mMatrix[2];
             //가속도 센서, 자기 센서의 값을 바탕으로 회전 행렬을 계산한다.
             SensorManager.getRotationMatrix(R, I, agMatrix, mMatrix);//I는 기울기 R은 디바이스 시스템의 좌표계에서 세상 좌표계로, 그냥 방향 센서가 주는 데이터 직접 사용 시:완전한 결과 값이기 때문에 데이터의 좌표 기준을 변경 가공할 수 없다는 단점,그러나 회전 메트릭스를 가공하여 원하는 결과 도출 장점
             //디바이스의 방향에 따라 회전 행렬을 계산한다.
@@ -884,6 +909,15 @@ public class MagneticMeasureViewWithPDR extends AppCompatActivity implements Sen
                         };
                         worker.start();
 */
+                            /*** 실제 걸음횟수가 카운트 된다고 판단 내리는 부분?? */
+                            try {
+                                String data = magneticField[0] + "," + magneticField[1] + "," + magneticField[2] + ","
+                                        + Math.sqrt(magneticField[0] * magneticField[0] + magneticField[1] * magneticField[1] + magneticField[2] * magneticField[2])
+                                        + "," + XXX + "," + YYY + "\r\n";
+                                os.write(data.getBytes());
+                            } catch(Exception e) {
+                                e.printStackTrace();
+                            }
                             wvLayout0401v3.loadUrl("javascript:androidBridge (" + XXX + ", " + YYY + ",'#000000')");
                             cc = 0;
                         }
@@ -892,6 +926,7 @@ public class MagneticMeasureViewWithPDR extends AppCompatActivity implements Sen
                 }
 
                 // tView.setText(String.valueOf(anglex));
+
                 tView1.setText(String.valueOf(total_count+ptotal_count));
             }//state==1 finish
             i++;
