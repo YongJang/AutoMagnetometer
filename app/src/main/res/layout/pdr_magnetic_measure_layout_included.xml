@@ -70,14 +70,15 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
     </WebView>
+
     <EditText
         android:id="@+id/IDedittext"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:hint="Floor"
-        android:layout_below="@+id/Layout0401v3"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/Layout0401v3"
+        android:hint="Filename" />
     <EditText
         android:id="@+id/Xedittext"
         android:layout_width="200dp"

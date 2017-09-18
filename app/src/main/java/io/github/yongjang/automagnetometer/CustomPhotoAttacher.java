@@ -123,9 +123,13 @@ public class CustomPhotoAttacher  extends PhotoViewAttacher implements View.OnTo
                 float y = (event.getY() - rf.top) / getScale();
                 TextView valueX = textViewX;
                 TextView valueY = textViewY;
+
                 valueX.setText(Float.toString(x));
                 valueY.setText(Float.toString(y));
-
+                /***  pdr맵과 지도의 배율(4.5배)를 맞춰주기 위해 임시적 수정
+                valueX.setText(Float.toString(x * 4.5f));
+                valueY.setText(Float.toString(y * 4.5f));
+                */
                 ImageView image = new ImageView(context);
                 image.setBackgroundResource(R.mipmap.whitecircle);
                 image.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,

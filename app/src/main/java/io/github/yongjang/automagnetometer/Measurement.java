@@ -119,16 +119,8 @@ public class Measurement implements SensorEventListener {
         float intervalX;
         float intervalY;
 
-        if (startPointX >= endPointX) {
-            intervalX = (startPointX - endPointX) / (arraySize -1);
-        } else {
-            intervalX = (endPointX - startPointX) / (arraySize -1);
-        }
-        if (startPointY >= endPointY) {
-            intervalY = (startPointY - endPointY) / (arraySize -1);
-        } else {
-            intervalY = (endPointY - startPointY) / (arraySize -1);
-        }
+        intervalX = (endPointX - startPointX) / (arraySize -1);
+        intervalY = (endPointY - startPointY) / (arraySize -1);
 
         System.out.println("********************************");
         System.out.println("startPoint x : " + startPointX + " // endPoint x :" + endPointX);
