@@ -70,6 +70,7 @@ import static java.lang.Math.sin;
 
 public class MagneticMeasureViewWithPDR extends AppCompatActivity implements SensorEventListener{
     public MagneticMeasureViewWithPDR() { }
+    private static float ACCELERATOR_THRESHOLD = 1.1f;
     /**********************************************/
     /********TEST INITIAL CODE START***************/
     /**********************************************/
@@ -380,7 +381,7 @@ public class MagneticMeasureViewWithPDR extends AppCompatActivity implements Sen
             }else if(anglex>=270&& anglex<=360){
                 anglex=360-(270-360+anglex)+67;
             }*/
-            tView.setText(String.valueOf(anglex));
+            /***tView.setText(String.valueOf(anglex));*/
 
         }
 
@@ -445,7 +446,7 @@ public class MagneticMeasureViewWithPDR extends AppCompatActivity implements Sen
             if(sTate==0||sTate==1) {
 
                 if (c == 0 && k == 0 && l == 0) {
-                    if (accpz > 1.2) {
+                    if (accpz > ACCELERATOR_THRESHOLD) {
                         c = 1;
 
                         if (maxiaz < accpz) {
@@ -467,7 +468,7 @@ public class MagneticMeasureViewWithPDR extends AppCompatActivity implements Sen
                     end = 0;
                     detect = 0;
                     tdetect = 0;
-                    if (accpz > 1.2) {
+                    if (accpz > ACCELERATOR_THRESHOLD) {
                         if (maxiaz < accpz) {
                             start = upti;
                             maxiaz = accpz;
@@ -553,7 +554,7 @@ public class MagneticMeasureViewWithPDR extends AppCompatActivity implements Sen
 
 
                 if (c == 1 && k == 1 && l == 0) {
-                    if (accpz < -1.2) {
+                    if (accpz < -ACCELERATOR_THRESHOLD) {
                         if (minaz > accpz) {
                             mid = upti;
                             minaz = accpz;
@@ -639,7 +640,7 @@ public class MagneticMeasureViewWithPDR extends AppCompatActivity implements Sen
 
 
                 if (c == 1 && k == 1 && l == 1) {
-                    if (accpz > 1.2) {
+                    if (accpz > ACCELERATOR_THRESHOLD) {
                         if (lmaxiaz < accpz) {
                             end = upti;
                             lmaxiaz = accpz;
